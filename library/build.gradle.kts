@@ -1,17 +1,17 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    id("org.springframework.boot") version "3.2.2" apply false
-    id("io.spring.dependency-management") version "1.1.4"
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
+    id("org.springframework.boot") version "2.2.13.RELEASE" apply false
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.jetbrains.kotlin.jvm") version "1.3.72"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.3.72"
 }
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+    sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {
@@ -26,6 +26,9 @@ dependencyManagement {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
@@ -33,8 +36,9 @@ dependencies {
 //    options.compilerArgs.add("-parameters")
 //}
 
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-Xjsr305=strict"
+        jvmTarget = "1.8"
     }
 }
